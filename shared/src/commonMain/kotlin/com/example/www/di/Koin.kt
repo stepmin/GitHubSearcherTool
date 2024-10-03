@@ -1,5 +1,10 @@
 package com.example.www.di
 
+import com.example.www.data.InMemoryGitHubStorage
+import com.example.www.data.KtorGitHubApi
+import com.example.www.data.GitHubApi
+import com.example.www.data.GitHubRepository
+import com.example.www.data.GitHubStorage
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.logging.DEFAULT
@@ -25,6 +30,14 @@ val dataModule = module {
                 // TODO Fix API so it serves application/json
                 json(json, contentType = ContentType.Any)
             }
+        }
+    }
+
+    single<GitHubApi> { KtorGitHubApi(get()) }
+    single<GitHubStorage> { InMemoryGitHubStorage() }
+    single {
+        GitHubRepository(get(), get()).apply {
+            initialize()
         }
     }
 }
