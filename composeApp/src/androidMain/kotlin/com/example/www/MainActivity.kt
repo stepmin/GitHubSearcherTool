@@ -16,7 +16,9 @@ class MainActivity : ComponentActivity() {
             LaunchedEffect(isSystemInDarkTheme()) {
                 enableEdgeToEdge()
             }
-            App()
+            ComposeApp {
+                finish()
+            }
         }
     }
 }
