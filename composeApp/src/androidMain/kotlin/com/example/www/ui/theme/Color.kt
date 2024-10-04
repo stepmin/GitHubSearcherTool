@@ -6,7 +6,7 @@ import androidx.compose.ui.graphics.Color
 // Light Theme Colors
 val accentPrimaryLight = Color(0xFF0000FF)
 val backgroundsPrimaryLight = Color(0xFFF4F4F9)
-val backgroundsSecondaryLight = Color(0xFFC8102E)
+val backgroundsSecondaryLight = Color(0xFFE7E7EC)
 val backgroundsTertiaryLight = Color(0xFFFFFFFF)
 val foregroundsPrimaryLight = Color(0xFF000000)
 val foregroundsSecondaryLight = Color(0xFF666666)
