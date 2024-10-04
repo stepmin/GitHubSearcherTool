@@ -8,6 +8,7 @@ plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.kmpNativeCoroutines)
     alias(libs.plugins.room)
+    alias(libs.plugins.apollo)
 }
 
 kotlin {
@@ -43,6 +44,7 @@ kotlin {
             implementation(libs.koin.core)
             implementation(libs.ktor.client.logging)
             implementation(libs.androidx.room.runtime)
+            api(libs.apollo.runtime.kotlin)
             api(libs.kmp.observable.viewmodel)
         }
 

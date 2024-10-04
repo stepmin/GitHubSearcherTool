@@ -1,18 +1,21 @@
 package com.example.www.di
 
-import com.example.www.data.InMemoryGitHubStorage
-import com.example.www.data.KtorGitHubApi
+import com.apollographql.apollo.ApolloClient
+import com.apollographql.apollo.api.ApolloExperimental
+import com.apollographql.apollo.network.http.ApolloHttpNetworkTransport
 import com.example.www.data.GitHubApi
 import com.example.www.data.GitHubRepository
 import com.example.www.data.GitHubStorage
+import com.example.www.data.InMemoryGitHubStorage
+import com.example.www.data.KtorGitHubApi
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
-import io.ktor.client.plugins.logging.DEFAULT
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
 import io.ktor.http.ContentType
 import io.ktor.serialization.kotlinx.json.json
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.serialization.json.Json
 import org.koin.core.context.startKoin
 import org.koin.core.module.Module
@@ -36,7 +39,6 @@ val dataModule = module {
             }
         }
     }
-
     single<GitHubApi> { KtorGitHubApi(get()) }
     single<GitHubStorage> { InMemoryGitHubStorage() }
     single {
@@ -46,12 +48,31 @@ val dataModule = module {
     }
 }
 
+@OptIn(ApolloExperimental::class, ExperimentalCoroutinesApi::class)
+val apolloModule = module {
+    single {
+        val token = "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"
+        val graphqlURL = "https://api.github.com/graphql"
+        ApolloClient(
+            networkTransport = ApolloHttpNetworkTransport(
+                serverUrl = graphqlURL,
+                headers = mapOf(
+                    "Accept" to "application/json",
+                    "Content-Type" to "application/json",
+                    "Authorization" to "bearer $token"
+                )
+            )
+        )
+    }
+}
+
 fun initKoin() = initKoin(emptyList())
 
 fun initKoin(extraModules: List<Module>) {
     startKoin {
         modules(
             dataModule,
+            apolloModule,
             *extraModules.toTypedArray(),
         )
     }
