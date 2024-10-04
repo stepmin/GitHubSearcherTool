@@ -10,6 +10,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.www.ListDestination
+import com.example.www.ui.screens.RepositoryListScreen
 
 @Composable
 fun NavGraph(
@@ -24,6 +25,10 @@ fun NavGraph(
         startDestination = startDestination,
     ) {
         composable<ListDestination> {
+            BackHandler {
+                finishActivity.invoke()
+            }
+            RepositoryListScreen()
         }
     }
 }

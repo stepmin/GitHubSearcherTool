@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Git Hub Searcher Tool</string>
     <string name="no_data_available">No data available</string>
+    <string name="na_label">N/A</string>
 </resources>
