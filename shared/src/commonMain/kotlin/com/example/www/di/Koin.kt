@@ -23,7 +23,11 @@ val dataModule = module {
         val json = Json { ignoreUnknownKeys = true }
         HttpClient {
             install(Logging) {
-                logger = Logger.DEFAULT
+                logger = object : Logger {
+                    override fun log(message: String) {
+                        println(message)
+                    }
+                }
                 level = LogLevel.ALL
             }
             install(ContentNegotiation) {
