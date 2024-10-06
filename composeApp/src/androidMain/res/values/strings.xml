@@ -1,5 +1,7 @@
 <resources>
-    <string name="app_name">Git Hub Searcher Tool</string>
-    <string name="no_data_available">No data available</string>
+    <string name="app_name">GitHub Repository Searcher</string>
+    <string name="no_data_available">Nothing found</string>
+    <string name="data_error_message">Something went wrong</string>
     <string name="na_label">N/A</string>
+    <string name="search_hint">Search for repositories</string>
 </resources>

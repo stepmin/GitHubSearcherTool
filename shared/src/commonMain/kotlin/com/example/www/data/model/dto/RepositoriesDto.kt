@@ -6,9 +6,9 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class RepositoriesDto(
     @SerialName("total_count")
-    val totalCount: Int,
+    val totalCount: Int?,
     @SerialName("incomplete_results")
-    val incompleteResults: Boolean,
+    val incompleteResults: Boolean?,
     @SerialName("items")
-    val repositoryDtos: List<RepositoryDto>
+    val repositoryDtos: List<RepositoryDto>?
 )

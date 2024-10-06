@@ -15,20 +15,22 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.www.R
-import com.example.www.domain.model.Owner
-import com.example.www.domain.model.RepositoryItem
+import com.example.www.domain.model.Repository
+import com.example.www.ui.theme.accentPrimaryLight
 import com.example.www.ui.theme.backgroundsPrimaryLight
+import com.example.www.ui.theme.foregroundsSecondaryLight
 
 @Composable
 fun RepositoryItem(
-    repo: RepositoryItem,
-    onFavoriteClicked: (id: Int) -> Unit
+    repo: Repository,
+    onFavoriteClicked: (id: String) -> Unit
 ) {
     Card(
         modifier = Modifier.fillMaxWidth(),
@@ -44,7 +46,7 @@ fun RepositoryItem(
             AsyncImage(
                 contentDescription = "Owner Image",
                 modifier = Modifier.size(80.dp),
-                model = repo.owner?.img,
+                model = repo.ownerImage,
                 placeholder = painterResource(R.drawable.ic_person)
             )
             Column(
@@ -57,7 +59,7 @@ fun RepositoryItem(
                     modifier = Modifier.padding(bottom = 4.dp),
                 )
                 Text(
-                    text = repo.owner?.name ?: stringResource(R.string.na_label),
+                    text = repo.ownerLogin ?: stringResource(R.string.na_label),
                     style = MaterialTheme.typography.bodySmall
                 )
                 Row(
@@ -93,12 +95,17 @@ fun RepositoryItem(
             //TODO-ADD FAVORITE
             Image(
                 painter = painterResource(id = R.drawable.ic_favorite),
+                colorFilter = if (repo.isStarred == true) {
+                    ColorFilter.tint(accentPrimaryLight)
+                } else {
+                    ColorFilter.tint(foregroundsSecondaryLight)
+                },
                 contentDescription = "Favorite feature icon",
                 modifier = Modifier
                     .size(40.dp)
                     .padding(end = 8.dp)
                     .clickable(onClick = {
-                        repo.id?.let { onFavoriteClicked.invoke(it) }
+                        repo.id.let { onFavoriteClicked.invoke(it) }
                     })
             )
         }
@@ -108,22 +115,16 @@ fun RepositoryItem(
 @Preview(showBackground = true)
 @Composable
 private fun RepositoryCardPreview() {
-    val id = RepositoryItem(
-        id = 0,
-        name = "ComposeApp",
-        repoUrl = "https://github.com/rohlik-group/compose-app",
-        starsCount = 4500,
-        forksCount = 530,
-        owner = Owner(name = "Rohlik Group", img = "https://avatars.githubusercontent.com/u/1?v=4")
-    )
     RepositoryItem(
-        RepositoryItem(
-            id = 0,
+        Repository(
+            id = "asdfasdf",
             name = "ComposeApp",
             repoUrl = "https://github.com/rohlik-group/compose-app",
             starsCount = 4500,
             forksCount = 530,
-            owner = Owner(name = "Rohlik Group", img = "https://avatars.githubusercontent.com/u/1?v=4"),
+            ownerLogin = "Rohlik Group",
+            ownerImage = "https://avatars.githubusercontent.com/u/1?v=4",
+            isStarred = false
         )
     ) {
 

@@ -1,18 +1,29 @@
 package com.example.www.screens.repositories
 
-import com.example.www.data.GitHubRepository
-import com.example.www.domain.model.Repositories
-import com.rickclephas.kmp.nativecoroutines.NativeCoroutinesState
+import androidx.paging.PagingData
+import com.example.www.domain.model.Repository
+import com.example.www.domain.useCase.SearchRepositoriesUseCase
 import com.rickclephas.kmp.observableviewmodel.ViewModel
-import com.rickclephas.kmp.observableviewmodel.stateIn
-import kotlinx.coroutines.flow.SharingStarted
+import com.rickclephas.kmp.observableviewmodel.launch
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
 
-class RepositoriesViewModel(gitHubRepository: GitHubRepository) : ViewModel() {
-    @NativeCoroutinesState
-    val repositories: StateFlow<Repositories> =
-        gitHubRepository.getRepositories()
-            .stateIn(
-                viewModelScope, SharingStarted.WhileSubscribed(5000), Repositories(0, false, null)
-            )
+class RepositoriesViewModel(
+    private val searchRepositoriesUseCase: SearchRepositoriesUseCase,
+    ) : ViewModel() {
+
+    private val _repositories: MutableStateFlow<PagingData<Repository>> = MutableStateFlow(value = PagingData.empty())
+    val repositories: StateFlow<PagingData<Repository>> get() = _repositories
+
+    fun onSearch(newQuery: String) {
+        viewModelScope.launch {
+            searchRepositoriesUseCase
+                .invoke(newQuery)
+                .distinctUntilChanged()
+                .collect {
+                    _repositories.value = it
+                }
+        }
+    }
 }

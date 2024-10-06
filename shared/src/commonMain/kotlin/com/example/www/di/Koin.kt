@@ -4,10 +4,11 @@ import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.api.ApolloExperimental
 import com.apollographql.apollo.network.http.ApolloHttpNetworkTransport
 import com.example.www.data.GitHubApi
-import com.example.www.data.GitHubRepository
-import com.example.www.data.GitHubStorage
-import com.example.www.data.InMemoryGitHubStorage
+import com.example.www.data.GitHubRepositoryImpl
 import com.example.www.data.KtorGitHubApi
+import com.example.www.domain.GitHubRepository
+import com.example.www.domain.useCase.SearchRepositoriesUseCase
+import com.example.www.screens.repositories.RepositoriesViewModel
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.logging.LogLevel
@@ -18,8 +19,11 @@ import io.ktor.serialization.kotlinx.json.json
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.serialization.json.Json
 import org.koin.core.context.startKoin
-import org.koin.core.module.Module
+import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
+
+//TODO implement centralized token manipulation
+const val gitHubToken = "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"
 
 val dataModule = module {
     single {
@@ -39,41 +43,41 @@ val dataModule = module {
             }
         }
     }
+
+    single<GitHubRepository> { GitHubRepositoryImpl(get()) }
     single<GitHubApi> { KtorGitHubApi(get()) }
-    single<GitHubStorage> { InMemoryGitHubStorage() }
-    single {
-        GitHubRepository(get(), get()).apply {
-            initialize()
-        }
-    }
 }
 
 @OptIn(ApolloExperimental::class, ExperimentalCoroutinesApi::class)
 val apolloModule = module {
     single {
-        val token = "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"
-        val graphqlURL = "https://api.github.com/graphql"
+        val graphqlEndpoint = "https://api.github.com/graphql"
         ApolloClient(
             networkTransport = ApolloHttpNetworkTransport(
-                serverUrl = graphqlURL,
+                serverUrl = graphqlEndpoint,
                 headers = mapOf(
                     "Accept" to "application/json",
                     "Content-Type" to "application/json",
-                    "Authorization" to "bearer $token"
+                    "Authorization" to "bearer $gitHubToken"
                 )
             )
         )
     }
 }
 
-fun initKoin() = initKoin(emptyList())
+private val searchUseCasesModule = module {
+    singleOf(::SearchRepositoriesUseCase)
+}
 
-fun initKoin(extraModules: List<Module>) {
-    startKoin {
+private val repositoriesViewModelModule = module {
+    factory { RepositoriesViewModel(get()) }
+}
+
+fun initKoin() = startKoin {
         modules(
             dataModule,
             apolloModule,
-            *extraModules.toTypedArray(),
+            searchUseCasesModule,
+            repositoriesViewModelModule
         )
     }
-}
