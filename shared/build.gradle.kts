@@ -44,6 +44,8 @@ kotlin {
             implementation(libs.koin.core)
             implementation(libs.ktor.client.logging)
             implementation(libs.androidx.room.runtime)
+            implementation(libs.androidx.paging.runtime)
+            implementation(libs.paging.compose.common)
             api(libs.apollo.runtime.kotlin)
             api(libs.kmp.observable.viewmodel)
         }
