@@ -25,6 +25,8 @@ kotlin {
             implementation(libs.androidx.navigation.compose)
             implementation(libs.koin.androidx.compose)
             implementation(libs.coil.compose)
+            implementation(libs.androidx.paging.runtime)
+            implementation(libs.paging.compose.common)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
