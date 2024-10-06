@@ -15,7 +15,7 @@ fun RepositoriesDto.toDomain(): Repositories {
 
 fun RepositoryDto.toDomain(): Repository {
     return Repository(
-        id = node_id ?: "",
+        nodeId = node_id ?: "",
         name = name,
         repoUrl = url,
         starsCount = stargazers_count,

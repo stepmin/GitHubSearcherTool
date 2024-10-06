@@ -8,6 +8,7 @@ import com.example.www.data.GitHubRepositoryImpl
 import com.example.www.data.KtorGitHubApi
 import com.example.www.domain.GitHubRepository
 import com.example.www.domain.useCase.SearchRepositoriesUseCase
+import com.example.www.domain.useCase.StarRepositoryUseCase
 import com.example.www.screens.repositories.RepositoriesViewModel
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
@@ -67,10 +68,11 @@ val apolloModule = module {
 
 private val searchUseCasesModule = module {
     singleOf(::SearchRepositoriesUseCase)
+    singleOf(::StarRepositoryUseCase)
 }
 
 private val repositoriesViewModelModule = module {
-    factory { RepositoriesViewModel(get()) }
+    factory { RepositoriesViewModel(get(), get()) }
 }
 
 fun initKoin() = startKoin {
