@@ -51,6 +51,7 @@ class GitHubRepositoryImpl(
         }
     }
 
+    //TODO-error handling
     @OptIn(ApolloExperimental::class, ExperimentalCoroutinesApi::class)
     override suspend fun starUnstarRepo(starrableId: String, shouldStar: Boolean) {
         try {

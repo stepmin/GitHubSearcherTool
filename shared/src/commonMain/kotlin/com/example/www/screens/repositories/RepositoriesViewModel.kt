@@ -36,6 +36,7 @@ class RepositoriesViewModel(
 
     fun starUnstar(id: String, starUnstar: Boolean) {
         viewModelScope.launch(Dispatchers.IO) {
+            //TODO handle errors
             starRepositoryUseCase.invoke(id, starUnstar)
 
             _repositories.value = _repositories.value.map {
