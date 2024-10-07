@@ -41,7 +41,7 @@ fun RepositoryItem(
     ) {
         Row(
             modifier = Modifier
-                .padding(15.dp)
+                .padding(10.dp)
                 .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
         ) {
@@ -52,20 +52,19 @@ fun RepositoryItem(
                 placeholder = painterResource(R.drawable.ic_person)
             )
             Column(
-                modifier = Modifier
-                    .padding(8.dp)
+                modifier = Modifier.padding(start = 10.dp)
             ) {
                 Text(
                     text = repo.name ?: stringResource(R.string.na_label),
-                    style = MaterialTheme.typography.titleSmall,
-                    modifier = Modifier.padding(bottom = 4.dp),
+                    style = MaterialTheme.typography.titleMedium,
+                    modifier = Modifier.padding(bottom = 2.dp),
                 )
                 Text(
                     text = repo.ownerLogin,
-                    style = MaterialTheme.typography.bodySmall
+                    style = MaterialTheme.typography.bodyMedium
                 )
                 Row(
-                    modifier = Modifier.padding(all = 4.dp),
+                    modifier = Modifier.padding(top = 4.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Image(
@@ -75,19 +74,19 @@ fun RepositoryItem(
                     )
                     Text(
                         text = "${repo.starsCount}",
-                        style = MaterialTheme.typography.bodySmall
+                        style = MaterialTheme.typography.bodyMedium
                     )
                     Image(
                         painter = painterResource(id = R.drawable.ic_fork),
                         contentDescription = "Fork icon",
                         modifier = Modifier
-                            .size(24.dp)
+                            .size(20.dp)
                             .padding(start = 4.dp)
                     )
                     Text(
                         text = "${repo.forksCount}",
-                        style = MaterialTheme.typography.bodySmall,
-                        modifier = Modifier.padding(start = 8.dp)
+                        style = MaterialTheme.typography.bodyMedium,
+                        modifier = Modifier.padding(start = 4.dp)
                     )
                 }
             }
@@ -127,7 +126,7 @@ private fun RepositoryCardPreview() {
             repoUrl = "https://github.com/rohlik-group/compose-app",
             starsCount = 4500,
             forksCount = 530,
-            ownerLogin = "Rohlik Group",
+            ownerLogin = "Zásilkovna",
             ownerImage = "https://avatars.githubusercontent.com/u/1?v=4",
             isStarred = false
         ),

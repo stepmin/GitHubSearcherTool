@@ -56,7 +56,7 @@ fun RepositoryListScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(backgroundsSecondaryLight)
-            .padding(20.dp),
+            .padding(10.dp),
         verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
 
@@ -105,7 +105,7 @@ fun RepositoryListScreen(
                 append is LoadStateLoading -> {
                     item {
                         CircularProgressIndicator(
-                            color = backgroundsPrimaryLight,
+                            color = accentSecondaryLight,
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(16.dp)
