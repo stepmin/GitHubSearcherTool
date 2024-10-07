@@ -2,8 +2,8 @@ package com.example.www.screens.repositories
 
 import androidx.paging.PagingData
 import com.example.www.domain.model.Repository
-import com.example.www.domain.useCase.StarRepositoryUseCase
 import com.example.www.domain.useCase.SearchRepositoriesUseCase
+import com.example.www.domain.useCase.StarRepositoryUseCase
 import com.rickclephas.kmp.observableviewmodel.ViewModel
 import com.rickclephas.kmp.observableviewmodel.launch
 import kotlinx.coroutines.flow.MutableStateFlow

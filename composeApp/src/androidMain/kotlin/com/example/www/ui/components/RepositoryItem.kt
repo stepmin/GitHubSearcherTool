@@ -32,8 +32,7 @@ import com.example.www.ui.theme.foregroundsSecondaryLight
 @Composable
 fun RepositoryItem(
     repo: Repository,
-    isStarred: Boolean,
-    onFavoriteClicked: (id: String) -> Unit
+    onStarClicked: (id: String) -> Unit
 ) {
     Card(
         modifier = Modifier.fillMaxWidth(),
@@ -62,7 +61,7 @@ fun RepositoryItem(
                     modifier = Modifier.padding(bottom = 4.dp),
                 )
                 Text(
-                    text = repo.ownerLogin ?: stringResource(R.string.na_label),
+                    text = repo.ownerLogin,
                     style = MaterialTheme.typography.bodySmall
                 )
                 Row(
@@ -95,10 +94,10 @@ fun RepositoryItem(
 
             Spacer(modifier = Modifier.weight(1f))
 
-            //TODO-ADD FAVORITE
+            //TODO-Star repo
             Image(
                 painter = painterResource(id = R.drawable.ic_favorite),
-                colorFilter = if (isStarred) {
+                colorFilter = if (repo.isStarred) {
                     ColorFilter.tint(accentPrimaryLight)
                 } else {
                     ColorFilter.tint(foregroundsSecondaryLight)
@@ -108,7 +107,7 @@ fun RepositoryItem(
                     .size(40.dp)
                     .padding(end = 8.dp)
                     .clickable(onClick = {
-                        repo.nodeId.let { onFavoriteClicked.invoke(it) }
+                        repo.nodeId.let { onStarClicked.invoke(it) }
                     })
             )
         }
@@ -132,7 +131,6 @@ private fun RepositoryCardPreview() {
             ownerImage = "https://avatars.githubusercontent.com/u/1?v=4",
             isStarred = false
         ),
-        isStarred = false
     ) {
 
     }

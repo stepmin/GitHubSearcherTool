@@ -43,11 +43,13 @@ kotlin {
             implementation(libs.ktor.serialization.kotlinx.json)
             implementation(libs.koin.core)
             implementation(libs.ktor.client.logging)
-            implementation(libs.androidx.room.runtime)
             implementation(libs.androidx.paging.runtime)
             implementation(libs.paging.compose.common)
             api(libs.apollo.runtime.kotlin)
             api(libs.kmp.observable.viewmodel)
+
+            implementation(libs.room.runtime)
+            implementation(libs.sqlite.bundled)
         }
 
         // Required by KMM-ViewModel
@@ -56,10 +58,6 @@ kotlin {
             languageSettings.optIn("kotlin.experimental.ExperimentalObjCName")
         }
     }
-}
-
-room {
-    schemaDirectory("$projectDir/schemas")
 }
 
 android {
@@ -72,4 +70,11 @@ android {
     defaultConfig {
         minSdk = 24
     }
+}
+room {
+    schemaDirectory("$projectDir/schemas")
+}
+
+dependencies {
+    ksp(libs.room.compiler)
 }

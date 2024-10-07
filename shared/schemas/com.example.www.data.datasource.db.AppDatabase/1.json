@@ -2,30 +2,30 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "c728ea393ef2aeeef47389a463d056e3",
+    "identityHash": "ca5a04591d437a926b30cd1ebfbb0346",
     "entities": [
       {
-        "tableName": "FavoriteEntity",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "tableName": "starred_repositories",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`nodeId` TEXT NOT NULL, PRIMARY KEY(`nodeId`))",
         "fields": [
           {
-            "fieldPath": "id",
-            "columnName": "id",
-            "affinity": "INTEGER",
+            "fieldPath": "nodeId",
+            "columnName": "nodeId",
+            "affinity": "TEXT",
             "notNull": true
           }
         ],
         "primaryKey": {
           "autoGenerate": false,
           "columnNames": [
-            "id"
+            "nodeId"
           ]
         }
       }
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'c728ea393ef2aeeef47389a463d056e3')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'ca5a04591d437a926b30cd1ebfbb0346')"
     ]
   }
 }

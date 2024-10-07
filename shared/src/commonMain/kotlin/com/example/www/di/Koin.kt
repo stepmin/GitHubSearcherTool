@@ -15,16 +15,17 @@ import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
-import io.ktor.http.ContentType
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.serialization.json.Json
 import org.koin.core.context.startKoin
+import org.koin.core.module.Module
 import org.koin.core.module.dsl.singleOf
+import org.koin.dsl.KoinAppDeclaration
 import org.koin.dsl.module
 
 //TODO implement centralized token manipulation
-const val gitHubToken = "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"
+const val gitHubToken = "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"
 
 val dataModule = module {
     single {
@@ -39,13 +40,15 @@ val dataModule = module {
                 level = LogLevel.ALL
             }
             install(ContentNegotiation) {
-                // TODO Fix API so it serves application/json
-                json(json, contentType = ContentType.Any)
+                json(Json {
+                    ignoreUnknownKeys = true
+                    prettyPrint = true
+                })
             }
         }
     }
 
-    single<GitHubRepository> { GitHubRepositoryImpl(get()) }
+    single<GitHubRepository> { GitHubRepositoryImpl(get(), get()) }
     single<GitHubApi> { KtorGitHubApi(get()) }
 }
 
@@ -66,7 +69,8 @@ val apolloModule = module {
     }
 }
 
-private val searchUseCasesModule = module {
+@OptIn(ApolloExperimental::class, ExperimentalCoroutinesApi::class)
+private val useCasesModule = module {
     singleOf(::SearchRepositoriesUseCase)
     singleOf(::StarRepositoryUseCase)
 }
@@ -75,11 +79,15 @@ private val repositoriesViewModelModule = module {
     factory { RepositoriesViewModel(get(), get()) }
 }
 
-fun initKoin() = startKoin {
-        modules(
-            dataModule,
-            apolloModule,
-            searchUseCasesModule,
-            repositoriesViewModelModule
-        )
-    }
+expect fun platformModule(): Module
+
+fun initKoin(config: KoinAppDeclaration? = null) = startKoin {
+    config?.invoke(this)
+    modules(
+        platformModule(),
+        dataModule,
+        apolloModule,
+        useCasesModule,
+        repositoriesViewModelModule
+    )
+}

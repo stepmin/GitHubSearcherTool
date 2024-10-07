@@ -35,9 +35,6 @@ class RepositoriesPagingSource(
                                     prevKey = prevPage,
                                     nextKey = nextPage
                                 )
-//                                } else {
-//                                    LoadResult.Error(IllegalStateException("Link header not found"))
-//                                }
                             }
 
                             /* error state */
