@@ -29,7 +29,6 @@ const val gitHubToken = "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"
 
 val dataModule = module {
     single {
-        val json = Json { ignoreUnknownKeys = true }
         HttpClient {
             install(Logging) {
                 logger = object : Logger {

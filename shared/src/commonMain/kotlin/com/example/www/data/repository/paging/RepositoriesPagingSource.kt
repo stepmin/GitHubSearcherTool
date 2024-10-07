@@ -11,10 +11,6 @@ class RepositoriesPagingSource(
 ) :
     PagingSource<Int, Repository>() {
 
-    override fun getRefreshKey(state: PagingState<Int, Repository>): Int? {
-        return state.anchorPosition
-    }
-
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Repository> {
         return (params.key ?: 1).let { _page ->
             try {
@@ -57,5 +53,9 @@ class RepositoriesPagingSource(
         val matchResult = pattern.find(nextLink.toString())
         val pageNumber = matchResult?.groupValues?.get(1)?.toInt()
         return pageNumber
+    }
+
+    override fun getRefreshKey(state: PagingState<Int, Repository>): Int? {
+        return state.anchorPosition
     }
 }

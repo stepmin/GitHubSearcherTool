@@ -63,15 +63,16 @@ fun RepositoryListScreen(
         items(repositories.itemCount) { index ->
             val item = repositories[index]
             if (item != null) {
-                RepositoryItem(repo = item,
+                RepositoryItem(
+                    repo = item,
                     onStarClicked = {
                         viewModel.starUnstar(item.nodeId, !item.isStarred)
-                    })
+                    }
+                )
             }
         }
 
         repositories.loadState.apply {
-            println("state: $this")
             when {
                 refresh is LoadStateNotLoading && repositories.itemCount < 1 -> {
                     item {
