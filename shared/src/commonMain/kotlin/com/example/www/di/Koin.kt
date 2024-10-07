@@ -48,7 +48,7 @@ val dataModule = module {
         }
     }
 
-    single<GitHubRepository> { GitHubRepositoryImpl(get(), get()) }
+    single<GitHubRepository> { GitHubRepositoryImpl(get(), get(), get()) }
     single<GitHubApi> { KtorGitHubApi(get()) }
 }
 
@@ -69,7 +69,6 @@ val apolloModule = module {
     }
 }
 
-@OptIn(ApolloExperimental::class, ExperimentalCoroutinesApi::class)
 private val useCasesModule = module {
     singleOf(::SearchRepositoriesUseCase)
     singleOf(::StarRepositoryUseCase)

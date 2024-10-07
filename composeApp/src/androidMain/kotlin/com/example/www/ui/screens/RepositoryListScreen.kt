@@ -65,9 +65,7 @@ fun RepositoryListScreen(
             if (item != null) {
                 RepositoryItem(repo = item,
                     onStarClicked = {
-                        {
-                            //TODO-ADD FAVORITE
-                        }
+                        viewModel.starUnstar(item.nodeId, !item.isStarred)
                     })
             }
         }

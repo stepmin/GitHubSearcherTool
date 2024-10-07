@@ -23,4 +23,12 @@ interface StarredRepositoryDao {
 
     @Query("DELETE FROM starred_repositories WHERE nodeId = :nodeId")
     fun delete(nodeId: String)
+
+    suspend fun starRepository(nodeId: String) {
+        insert(StarredRepositoryEntity(nodeId))
+    }
+
+    suspend fun unstarRepository(nodeId: String) {
+        delete(nodeId)
+    }
 }

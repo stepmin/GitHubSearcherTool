@@ -6,6 +6,8 @@ import com.example.www.domain.useCase.SearchRepositoriesUseCase
 import com.example.www.domain.useCase.StarRepositoryUseCase
 import com.rickclephas.kmp.observableviewmodel.ViewModel
 import com.rickclephas.kmp.observableviewmodel.launch
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -29,9 +31,9 @@ class RepositoriesViewModel(
         }
     }
 
-    fun toggleStar(id: String, starUnstar: Boolean) {
-        viewModelScope.launch {
-            starRepositoryUseCase.execute(id, starUnstar)
+    fun starUnstar(id: String, starUnstar: Boolean) {
+        viewModelScope.launch(Dispatchers.IO) {
+            starRepositoryUseCase.invoke(id, starUnstar)
         }
     }
 }
