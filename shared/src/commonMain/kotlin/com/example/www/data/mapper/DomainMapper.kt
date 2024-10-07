@@ -9,8 +9,8 @@ import com.example.www.domain.model.StarredRepo
 
 fun RepositoriesDto.toDomain(): Repositories {
     return Repositories(
-        total_count = totalCount,
-        incomplete_results = incompleteResults,
+        totalCount = totalCount,
+        incompleteResults = incompleteResults,
         items = repositoryDtos?.filter { it.node_id != null && it.owner?.login != null }?.map { it.toDomain() }
     )
 }

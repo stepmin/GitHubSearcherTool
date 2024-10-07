@@ -1,8 +1,8 @@
 package com.example.www.domain.model
 
 data class Repositories(
-    val total_count: Int?,
-    val incomplete_results: Boolean?,
+    val totalCount: Int?,
+    val incompleteResults: Boolean?,
     val items: List<Repository>?
 )
 
