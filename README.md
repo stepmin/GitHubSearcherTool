@@ -1,4 +1,4 @@
-# Simple GitHub gSearcher
+# Simple GitHub Searcher
 
 ## Overview
 The **Simple GitHub Searcher** is an Android application developed with Jetpack Compose, GraphQL, and Room for local storage. This app allows users to search for GitHub repositories, star/unstar them. It is built with Kotlin Multiplatform capabilities, allowing the potential to extend it to iOS.
@@ -25,7 +25,7 @@ The **Simple GitHub Searcher** is an Android application developed with Jetpack 
 ## Technologies Used
 - **Kotlin Multiplatform**: Core logic for API calls and data management.
 - **Jetpack Compose**: UI framework for building the Android interface.
-- **GraphQL**: Used for performing actions like starring/un-starring repositories.
+- **GraphQL**: Used for starring/un-starring repositories.
 - **REST API**: Used for searching GitHub repositories.
 - **Kotlin Coroutines & Flow**: For handling asynchronous operations and real-time data updates.
 - **Room Database**: For local data storage and caching.
