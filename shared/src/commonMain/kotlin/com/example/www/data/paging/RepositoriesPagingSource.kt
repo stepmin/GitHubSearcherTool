@@ -1,4 +1,4 @@
-package com.example.www.data.repository.paging
+package com.example.www.data.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
@@ -33,10 +33,8 @@ class RepositoriesPagingSource(
                                 )
                             }
 
-                            /* error state */
                             is Error -> LoadResult.Error(this)
 
-                            /* should not reach this point */
                             else -> LoadResult.Error(IllegalStateException("$this type of [Result] is not allowed here"))
                         }
                     }

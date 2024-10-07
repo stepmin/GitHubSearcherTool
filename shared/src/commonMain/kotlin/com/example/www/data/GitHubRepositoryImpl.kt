@@ -12,7 +12,7 @@ import com.apollographql.apollo.ApolloNetworkException
 import com.apollographql.apollo.api.ApolloExperimental
 import com.example.www.data.datasource.db.AppDatabase
 import com.example.www.data.datasource.db.entities.StarredRepositoryEntity
-import com.example.www.data.repository.paging.RepositoriesPagingSource
+import com.example.www.data.paging.RepositoriesPagingSource
 import com.example.www.data.util.Result
 import com.example.www.domain.GitHubRepository
 import com.example.www.domain.model.Repository
