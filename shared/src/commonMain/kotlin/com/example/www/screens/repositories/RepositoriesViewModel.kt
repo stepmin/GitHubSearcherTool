@@ -39,8 +39,12 @@ class RepositoriesViewModel(
             //TODO handle errors
             starRepositoryUseCase.invoke(id, starUnstar)
 
-            _repositories.value = _repositories.value.map {
-                if (it.nodeId == id) it.copy(isStarred = starUnstar) else it
+            _repositories.value = _repositories.value.map { repo ->
+                if (repo.nodeId == id) {
+                    repo.let {
+                        it.copy(isStarred = starUnstar, starsCount = (it.starsCount ?: 0) + if (starUnstar) 1 else -1)
+                    }
+                } else repo
             }
         }
     }
