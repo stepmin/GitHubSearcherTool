@@ -1,6 +1,5 @@
-package com.example.www
+package com.example.www.ui
 
-import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
@@ -33,6 +32,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.www.R
 import com.example.www.ui.screens.RepositoryListScreen
 import com.example.www.ui.theme.backgroundsPrimaryLight
 import kotlinx.serialization.Serializable
@@ -42,8 +42,7 @@ object ListDestination
 
 @Composable
 fun ComposeApp(
-    navController: NavHostController = rememberNavController(),
-    finishActivity: () -> Unit
+    navController: NavHostController = rememberNavController()
 ) {
     val query = rememberSaveable {
         mutableStateOf("")
@@ -68,9 +67,6 @@ fun ComposeApp(
                 startDestination = ListDestination,
             ) {
                 composable<ListDestination> {
-                    BackHandler {
-                        finishActivity.invoke()
-                    }
                     RepositoryListScreen(query)
                 }
             }
