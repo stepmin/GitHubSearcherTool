@@ -7,14 +7,12 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
@@ -41,34 +39,29 @@ import kotlinx.serialization.Serializable
 object ListDestination
 
 @Composable
-fun ComposeApp(
+fun GitHubSearcherToolUI(
     navController: NavHostController = rememberNavController()
 ) {
     val query = rememberSaveable {
         mutableStateOf("")
     }
-    //TODO-dark theme
-    MaterialTheme(
-        colorScheme = lightColorScheme()
-    ) {
-        Scaffold(
-            topBar = {
-                TopBar(
-                    query = query,
-                    onSearch = {
-                        query.value = it
-                    }
-                )
-            }
-        ) { paddingValues ->
-            NavHost(
-                modifier = Modifier.padding(paddingValues),
-                navController = navController,
-                startDestination = ListDestination,
-            ) {
-                composable<ListDestination> {
-                    RepositoryListScreen(query)
+    Scaffold(
+        topBar = {
+            TopBar(
+                query = query,
+                onSearch = {
+                    query.value = it
                 }
+            )
+        }
+    ) { paddingValues ->
+        NavHost(
+            modifier = Modifier.padding(paddingValues),
+            navController = navController,
+            startDestination = ListDestination,
+        ) {
+            composable<ListDestination> {
+                RepositoryListScreen(query)
             }
         }
     }
