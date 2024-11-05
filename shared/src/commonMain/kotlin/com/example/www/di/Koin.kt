@@ -30,7 +30,7 @@ import org.koin.dsl.KoinAppDeclaration
 import org.koin.dsl.module
 
 //TODO implement centralized token manipulation
-const val gitHubToken = "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"
+const val gitHubToken = "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"
 
 @OptIn(ApolloExperimental::class)
 val dataModule = module {
