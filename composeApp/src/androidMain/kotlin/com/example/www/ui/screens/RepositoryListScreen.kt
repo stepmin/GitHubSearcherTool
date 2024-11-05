@@ -1,5 +1,6 @@
 package com.example.www.ui.screens
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -18,20 +19,24 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.paging.compose.collectAsLazyPagingItems
 import app.cash.paging.LoadStateError
 import app.cash.paging.LoadStateLoading
 import app.cash.paging.LoadStateNotLoading
 import com.example.www.R
-import com.example.www.screens.repositories.RepositoriesViewModel
+import com.example.www.ui.MyLifecycleScope
+import com.example.www.ui.screens.repositories.RepositoriesViewModel
 import com.example.www.ui.components.InfoBox
 import com.example.www.ui.components.RepositoryItem
+import com.example.www.ui.screens.repositories.UIErrorType
 import com.example.www.ui.theme.accentSecondaryLight
-import com.example.www.ui.theme.backgroundsPrimaryLight
 import com.example.www.ui.theme.backgroundsSecondaryLight
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.filter
 import org.koin.androidx.compose.koinViewModel
@@ -40,8 +45,22 @@ import org.koin.androidx.compose.koinViewModel
 fun RepositoryListScreen(
     query: MutableState<String>
 ) {
+    val context = LocalContext.current
+    val lifecycleOwner = LocalLifecycleOwner.current
     val viewModel: RepositoriesViewModel = koinViewModel()
     val repositories by rememberUpdatedState(viewModel.repositories.collectAsLazyPagingItems())
+
+    LaunchedEffect(Unit) {
+        MyLifecycleScope(lifecycleOwner).launchWhenStarted {
+            viewModel.toastEvents.collectLatest { message ->
+                when (message) {
+                    is UIErrorType.TOAST -> {
+                        Toast.makeText(context, message.message, Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        }
+    }
 
     LaunchedEffect(query.value) {
         snapshotFlow { query.value }

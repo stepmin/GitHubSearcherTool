@@ -6,10 +6,15 @@ import com.apollographql.apollo.network.http.ApolloHttpNetworkTransport
 import com.example.www.data.GitHubApi
 import com.example.www.data.GitHubRepositoryImpl
 import com.example.www.data.KtorGitHubApi
+import com.example.www.data.datasource.ApolloDataSource
+import com.example.www.data.datasource.ApolloDataSourceImpl
+import com.example.www.data.datasource.GitHubRepoDataSource
+import com.example.www.data.datasource.GitHubRemoteDataSource
 import com.example.www.domain.GitHubRepository
 import com.example.www.domain.useCase.SearchRepositoriesUseCase
 import com.example.www.domain.useCase.StarRepositoryUseCase
-import com.example.www.screens.repositories.RepositoriesViewModel
+import com.example.www.domain.useCase.UnStarRepositoryUseCase
+import com.example.www.ui.screens.repositories.RepositoriesViewModel
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.logging.LogLevel
@@ -27,6 +32,7 @@ import org.koin.dsl.module
 //TODO implement centralized token manipulation
 const val gitHubToken = "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"
 
+@OptIn(ApolloExperimental::class)
 val dataModule = module {
     single {
         HttpClient {
@@ -47,7 +53,9 @@ val dataModule = module {
         }
     }
 
-    single<GitHubRepository> { GitHubRepositoryImpl(get(), get(), get()) }
+    single<GitHubRepoDataSource> { GitHubRemoteDataSource(get(), get()) }
+    single<ApolloDataSource> { ApolloDataSourceImpl(get(), get()) }
+    single<GitHubRepository> { GitHubRepositoryImpl(get(), get()) }
     single<GitHubApi> { KtorGitHubApi(get()) }
 }
 
@@ -71,10 +79,11 @@ val apolloModule = module {
 private val useCasesModule = module {
     singleOf(::SearchRepositoriesUseCase)
     singleOf(::StarRepositoryUseCase)
+    singleOf(::UnStarRepositoryUseCase)
 }
 
 private val repositoriesViewModelModule = module {
-    factory { RepositoriesViewModel(get(), get()) }
+    factory { RepositoriesViewModel(get(), get(), get()) }
 }
 
 expect fun platformModule(): Module

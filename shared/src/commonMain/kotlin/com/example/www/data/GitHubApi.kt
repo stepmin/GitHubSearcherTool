@@ -52,7 +52,6 @@ class KtorGitHubApi(private val client: HttpClient) : GitHubApi {
         }
     }
 
-    //TODO-error handling
     private suspend fun remoteStarredRepositories(): List<StarredRepo> {
         val allStarredRepos = mutableListOf<StarredRepo>()
         var page = 1
@@ -75,7 +74,6 @@ class KtorGitHubApi(private val client: HttpClient) : GitHubApi {
                 hasNextPage = response.headers["Link"]?.contains("rel=\"next\"") ?: false
                 page++
             } else {
-                // Handle API error
                 break
             }
         }
