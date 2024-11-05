@@ -25,7 +25,7 @@ import org.koin.dsl.KoinAppDeclaration
 import org.koin.dsl.module
 
 //TODO implement centralized token manipulation
-const val gitHubToken = "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"
+const val gitHubToken = "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"
 
 val dataModule = module {
     single {
