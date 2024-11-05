@@ -93,7 +93,6 @@ fun RepositoryItem(
 
             Spacer(modifier = Modifier.weight(1f))
 
-            //TODO-Star repo
             Image(
                 painter = painterResource(id = R.drawable.ic_favorite),
                 colorFilter = if (repo.isStarred) {
@@ -116,9 +115,6 @@ fun RepositoryItem(
 @Preview(showBackground = true)
 @Composable
 private fun RepositoryCardPreview() {
-    val isStarred = remember {
-        mutableStateOf(true)
-    }
     RepositoryItem(
         repo = Repository(
             nodeId = "asdfasdf",
