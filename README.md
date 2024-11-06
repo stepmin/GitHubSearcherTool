@@ -3,6 +3,9 @@
 ## Overview
 The **GitHub Repository Searcher** is an Android application developed with Jetpack Compose, GraphQL and Room. This app allows users to search for GitHub repositories, star/unstar them. It is built with Kotlin Multiplatform capabilities, allowing the potential to extend it to iOS.
 
+## Usage
+You need to replace val gitHubToken in com.example.www.di.Koin.kt with your personal access token.  
+
 ## Features
 
 ### 1. GitHub Repository Search
